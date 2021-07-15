@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/main">
+        <file>splash_librecad.png</file>
+    </qresource>
+</RCC>

@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QSplashScreen>
+#include <QSettings>
+#include <QPixmap>
 #include "lib/debug/rs_debug.h"
 
 void testDebug() {
@@ -20,9 +23,21 @@ int main(int argc, char *argv[])
     QGuiApplication::setDesktopFileName("librecad.desktop");
 #endif
 
-    testDebug();
+    QSettings settings;
+    QSplashScreen* splash = new QSplashScreen;
+    bool showSplash = settings.value("Startup/ShowSplash", 1).toBool();
+    if (showSplash) {
+        QPixmap pixmap(":/main/splash_librecad.png");
+        splash->setPixmap(pixmap);
+        splash->setAttribute(Qt::WA_DeleteOnClose);
+        splash->show();
+        splash->showMessage("Loading...");
+        RS_DEBUG("main: spalshscreen: OK");
+    }
 
     MainWindow w;
     w.show();
+
+    testDebug();
     return a.exec();
 }
