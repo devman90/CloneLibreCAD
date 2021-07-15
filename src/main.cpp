@@ -16,7 +16,7 @@ void testDebug() {
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
     QCoreApplication::setOrganizationName("CloneLibreCAD");
     QCoreApplication::setApplicationName("CloneLibreCAD");
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
@@ -31,13 +31,26 @@ int main(int argc, char *argv[])
         splash->setPixmap(pixmap);
         splash->setAttribute(Qt::WA_DeleteOnClose);
         splash->show();
-        splash->showMessage("Loading...");
+        splash->showMessage(QObject::tr("Loading..."),
+                            Qt::AlignRight|Qt::AlignBottom, Qt::black);
+        app.processEvents();
         RS_DEBUG("main: spalshscreen: OK");
     }
 
     MainWindow w;
     w.show();
+    w.setFocus();
+
+    if (showSplash) {
+        splash->finish(&w);
+    } else {
+        delete splash;
+    }
 
     testDebug();
-    return a.exec();
+
+    RS_DEBUG("main: entering Qt event loop");
+    int returnCode = app.exec();
+    RS_DEBUG("main: exited Qt event loop");
+    return returnCode;
 }
