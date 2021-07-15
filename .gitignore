@@ -1,3 +1,6 @@
+# Qt User Setting files
+*.pro.user
+
 # Prerequisites
 *.d
 
