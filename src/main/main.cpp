@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "qc_applicationwindow.h"
 
 #include <QApplication>
 #include <QSplashScreen>
@@ -37,12 +37,12 @@ int main(int argc, char *argv[])
         RS_DEBUG("main: spalshscreen: OK");
     }
 
-    MainWindow w;
-    w.show();
-    w.setFocus();
+    QC_ApplicationWindow appWin;
+    appWin.show();
+    appWin.setFocus();
 
     if (showSplash) {
-        splash->finish(&w);
+        splash->finish(&appWin);
     } else {
         delete splash;
     }

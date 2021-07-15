@@ -6,15 +6,16 @@ TEMPLATE = app
 TARGET = LibreCAD
 
 HEADERS += \
-    mainwindow.h \
+    main/mainwindowx.h \
+    main/qc_applicationwindow.h \
     lib/debug/rs_debug.h \
     lib/printing/lc_printing.h
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp \
+    main/main.cpp \
+    main/mainwindowx.cpp \
+    main/qc_applicationwindow.cpp \
     lib/debug/rs_debug.cpp \
-    lib/printing/lc_printing.cpp 
+    lib/printing/lc_printing.cpp
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
