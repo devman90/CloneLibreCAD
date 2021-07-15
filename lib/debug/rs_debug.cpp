@@ -4,12 +4,22 @@
 #include <cstdarg>
 #include <QDateTime>
 #include <QString>
+#include <QDebug>
 
 static RS_Debug* uniqueInstance = nullptr;
 
 void debugHeader(const char *file, const char *func, int line)
 {
     std::cout << file << " : " << func << " : line " << line << std::endl;
+}
+
+/**
+ * Constructor setting the default debug level.
+ */
+RS_Debug::RS_Debug()
+    : debugLevel(D_DEBUGGING)
+{
+
 }
 
 /**
@@ -28,8 +38,8 @@ RS_Debug *RS_Debug::instance()
         QString fName = QString("debug_%1.log").arg(nowStr);
 
         uniqueInstance = new RS_Debug;
-        uniqueInstance->stream = fopen(fName.toLatin1(), "wt");
-        // uniqueInstance->stream = stderr;
+//        uniqueInstance->stream = fopen(fName.toLatin1(), "wt");
+        uniqueInstance->stream = stderr;
     }
     return uniqueInstance;
 }
@@ -103,10 +113,24 @@ void RS_Debug::print(const char *format ...)
 }
 
 /**
- * Constructor setting the default debug level.
+ * Prints the unicode for every character in the given string.
  */
-RS_Debug::RS_Debug()
-    : debugLevel(D_DEBUGGING)
+void RS_Debug::printUnicode(const QString &text)
 {
+    for (auto const& v : text) {
+        print("[%X] %c", v.unicode(), v.toLatin1());
+    }
+}
 
+/**
+ * Prints a time stamp in the format yyyyMMdd_hhmmss.
+ */
+void RS_Debug::timestamp()
+{
+    QDateTime now = QDateTime::currentDateTime();
+    QString nowStr;
+    nowStr = now.toString("yyyyMMdd_hhmmss");
+    fprintf(stream, "%s", nowStr.toLatin1().data());
+    fprintf(stream, "\n");
+    fflush(stream);
 }
